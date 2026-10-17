@@ -154,8 +154,9 @@
      --custom-element-height, read by a rule like `.DURcgf > :first-child { width: var(...); min-height: var(...) }`
      and saved by the Editor, together with a position offset from Wix's 980 px page grid. Measured on the live
      page on 17 October 2026: a saved height of 1,084,964 px (the frame loop above) and a saved width of 1,509 px
-     at left -34 px on a 1,440 px screen. On the live site the element sizes its own wrapper: full width with no
-     offset, and exactly the page's real height, rewritten whenever that height changes. Outside Wix (the mount
+     at left -34 px on a 1,440 px screen; on Wix's mobile layout, 280 px wide with 20 px margins all round. On the
+     live site the element sizes its own wrapper: full width with no offset or margins, and exactly the page's
+     real height, rewritten whenever that height changes. Outside Wix (the mount
      test, any other host) the wrapper carries neither marker and nothing is touched. */
   StsmHome.prototype._fitWixBox = function (h) {
     var box = this.parentElement;
@@ -169,7 +170,8 @@
     var want = [
       ['--custom-element-height', px, ''], ['height', px, 'important'], ['min-height', '0px', 'important'],
       ['--custom-element-width', '100%', ''], ['width', '100%', 'important'],
-      ['margin-left', '0px', 'important'], ['margin-right', '0px', 'important'], ['left', '0px', 'important']
+      ['margin-left', '0px', 'important'], ['margin-right', '0px', 'important'], ['left', '0px', 'important'],
+      ['margin-top', '0px', 'important'], ['margin-bottom', '0px', 'important'], ['top', '0px', 'important']
     ];
     for (var i = 0; i < want.length; i++) {             // write only what differs, so the observer below settles
       if (s.getPropertyValue(want[i][0]) !== want[i][1] || s.getPropertyPriority(want[i][0]) !== want[i][2]) {

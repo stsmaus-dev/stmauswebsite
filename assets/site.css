@@ -587,6 +587,20 @@
   .stsm .foot-cols { grid-template-columns: 1fr 1fr; }
 }
 
+/* Wix's classic mobile layout draws pages 320 px wide. There the wordmark (about 170 px) and the
+   "Plan your visit" button do not fit side by side, so the wordmark is hidden visually and kept for
+   screen readers; the cross stays, and the hero's chip right below names the monastery in full. */
+@media (max-width: 359px) {
+  .stsm .nav-mark .wordmark { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  /* the 252 px text column is narrower than "Staying overnight? Call us first." on one line */
+  .stsm .btn { white-space: normal; text-align: center; max-width: 100%; }
+  .stsm .btn-row .tel-group { max-width: 100%; }
+}
+/* the email address is one unbreakable word wider than a 320 px column; let it break where it must,
+   and let grid columns shrink below their longest word instead of pushing past the screen */
+.stsm .textlink { overflow-wrap: anywhere; }
+.stsm .foot-cols > * { min-width: 0; }
+
 @media (max-width: 720px) {
   .stsm { font-size: 17px; }
   .stsm .nav-links { display: none; }
