@@ -1,0 +1,346 @@
+<div class="stsm" id="stsm">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="stsm-cross" viewBox="0 0 100 100"><path pathLength="1000" d="M50,1.5C53.4,3 58.6,7.6 58.4,12.8L58.6,13.8C63,14.2 67.6,16.4 69.5,20.6C70.3,21.5 69.9,22.5 68.4,22.6C64,23.2 57.8,27 56.6,34.5L56.5,39.2L60.8,39.2L60.8,43.5L65.5,43.4C73,42.2 76.8,36 77.4,31.6C77.5,30.1 78.5,29.7 79.4,30.5C83.6,32.4 85.8,37 86.2,41.4L87.2,41.6C92.4,41.4 97,46.6 98.5,50C97,53.4 92.4,58.6 87.2,58.4L86.2,58.6C85.8,63 83.6,67.6 79.4,69.5C78.5,70.3 77.5,69.9 77.4,68.4C76.8,64 73,57.8 65.5,56.6L60.8,56.5L60.8,60.8L56.5,60.8L56.6,65.5C57.8,73 64,76.8 68.4,77.4C69.9,77.5 70.3,78.5 69.5,79.4C67.6,83.6 63,85.8 58.6,86.2L58.4,87.2C58.6,92.4 53.4,97 50,98.5C46.6,97 41.4,92.4 41.6,87.2L41.4,86.2C37,85.8 32.4,83.6 30.5,79.4C29.7,78.5 30.1,77.5 31.6,77.4C36,76.8 42.2,73 43.4,65.5L43.5,60.8L39.2,60.8L39.2,56.5L34.5,56.6C27,57.8 23.2,64 22.6,68.4C22.5,69.9 21.5,70.3 20.6,69.5C16.4,67.6 14.2,63 13.8,58.6L12.8,58.4C7.6,58.6 3,53.4 1.5,50C3,46.6 7.6,41.4 12.8,41.6L13.8,41.4C14.2,37 16.4,32.4 20.6,30.5C21.5,29.7 22.5,30.1 22.6,31.6C23.2,36 27,42.2 34.5,43.4L39.2,43.5L39.2,39.2L43.5,39.2L43.4,34.5C42.2,27 36,23.2 31.6,22.6C30.1,22.5 29.7,21.5 30.5,20.6C32.4,16.4 37,14.2 41.4,13.8L41.6,12.8C41.4,7.6 46.6,3 50,1.5ZM49,38.6H51V49H61.4V51H51V61.4H49V51H38.6V49H49Z"/></symbol>
+  </svg>
+
+  <div class="env" id="env" aria-hidden="true">
+    <div class="env-blob env-blob-a"></div>
+    <div class="env-blob env-blob-b"></div>
+    <svg class="grain" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="stsm-grain" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" stitchTiles="stitch" result="n"/>
+          <feColorMatrix in="n" type="saturate" values="0"/>
+        </filter>
+        <pattern id="stsm-grain-tile" width="240" height="240" patternUnits="userSpaceOnUse">
+          <rect width="240" height="240" filter="url(#stsm-grain)"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#stsm-grain-tile)"/>
+    </svg>
+  </div>
+
+  <nav class="nav" id="nav" aria-label="Site">
+    <a class="nav-mark" href="#main"><svg class="cross" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#stsm-cross"/></svg><span class="wordmark">St Shenouda Monastery</span></a>
+    <div class="nav-links">
+      <a href="#day">The day</a>
+      <a href="#questions">Questions</a>
+      <a href="#give">Give</a>
+      <a href="#books">Books</a>
+    </div>
+    <a class="btn btn-primary nav-cta" href="#visit">Plan your visit</a>
+  </nav>
+
+  <main id="main" tabindex="-1">
+
+    <section class="hero" id="hero">
+      <div class="stage" id="stage">
+        <div class="stage-media" inert aria-hidden="true">
+          <div class="poster" id="poster"></div>
+          <video id="hero-video" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+          <div class="veil"></div>
+          <div class="lift" id="lift"></div>
+          <div class="dust" id="hero-dust"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <div class="bands" id="bands">
+          <div class="band band-1" id="band-1" data-band="1" data-a="0.00" data-b="0.19">
+            <h1 class="h1" id="hero-title"><span class="chip">St Shenouda Coptic Orthodox Monastery, Putty NSW</span><span class="h1-line split" data-split data-entrance="mist">A place of silence, prayer &amp; repentance.</span></h1>
+          </div>
+          <div class="band band-2" id="band-2" data-band="2" data-a="0.21" data-b="0.39">
+            <p class="line split" data-split data-entrance="approach">Two hours from Sydney. Coptic or not, you are welcome here.</p>
+          </div>
+          <div class="band band-3" id="band-3" data-band="3" data-a="0.41" data-b="0.78" data-ramp="0.34" data-lead="2" data-spread="0.30">
+            <p class="line split" data-split data-entrance="stagger">Come in. <br>Liturgy. Lunch. A talk with a Father. Then quiet.</p>
+          </div>
+          <div class="band band-4" id="band-4" data-band="4" data-a="0.80" data-b="1.00">
+            <div class="settle">
+              <h2 class="split" data-split data-entrance="settle">Come for a day.</h2>
+              <p class="sub">Day visitors are welcome from 7am to 7pm, every day. No booking needed.</p>
+              <div class="cta-row">
+                <a class="btn btn-primary" href="#visit">Plan your visit</a>
+                <p class="tel-row"><a class="tel" href="tel:+61265797093">Staying overnight? Call us first.</a> <a class="chip chip-link" href="tel:+61265797093">(02) 6579 7093</a></p>
+              </div>
+            </div>
+            <svg class="birth" id="birth" aria-hidden="true" focusable="false"><line x1="50%" y1="62%" x2="50%" y2="100%" pathLength="1000"/></svg>
+          </div>
+        </div>
+
+        <svg class="ring" id="ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/>
+        </svg>
+        <p class="cue chip" id="cue" aria-hidden="true">Scroll to arrive</p>
+      </div>
+
+      <div class="hero-static" id="hero-static">
+        <img class="hero-static-img" src="assets/hero-end.jpg" data-asset="hero-end.jpg" alt="" width="1920" height="1080">
+        <div class="hero-static-veil" aria-hidden="true"></div>
+        <div class="hero-static-copy">
+          <h1 class="h1"><span class="chip">St Shenouda Coptic Orthodox Monastery, Putty NSW</span><span class="h1-line">A place of silence, prayer &amp; repentance.</span></h1>
+          <p class="sub">Two hours from Sydney. Day visitors are welcome from 7am to 7pm, every day. No booking needed.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#visit">Plan your visit</a>
+            <p class="tel-row"><a class="tel" href="tel:+61265797093">Staying overnight? Call us first.</a> <a class="chip chip-link" href="tel:+61265797093">(02) 6579 7093</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="walk" id="walk">
+      <svg class="drive" id="drive" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="stsm-still-clip"><rect id="still-clip-rect" x="-32" y="0" width="128" height="0"/></clipPath>
+        </defs>
+        <path class="drive-path" id="drive-path" d="M32 0V0"/>
+        <path class="drive-path drive-path-dark" id="drive-path-dark" d="M32 0V0" clip-path="url(#stsm-still-clip)"/>
+        <g class="station" id="st-welcome" data-anchor="anchor-welcome" transform="translate(32,0)"><circle class="halo" r="14"/><circle class="fill" r="5"/><circle class="ring-dot" r="5"/></g>
+        <g class="station" id="st-day" data-anchor="anchor-day" transform="translate(32,0)"><circle class="halo" r="14"/><circle class="fill" r="5"/><circle class="ring-dot" r="5"/></g>
+        <g class="station tstation" id="ts-1" data-anchor="row-1" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-2" data-anchor="row-2" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-3" data-anchor="row-3" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-4" data-anchor="row-4" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-5" data-anchor="row-5" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-6" data-anchor="row-6" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-7" data-anchor="row-7" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-8" data-anchor="row-8" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station tstation" id="ts-9" data-anchor="row-9" transform="translate(32,0)"><circle class="halo" r="10"/><circle class="fill" r="3"/><circle class="ring-dot" r="3"/></g>
+        <g class="station" id="st-questions" data-anchor="anchor-questions" transform="translate(32,0)"><circle class="halo" r="14"/><circle class="fill" r="5"/><circle class="ring-dot" r="5"/></g>
+        <g class="station" id="st-words" data-anchor="anchor-words" transform="translate(32,0)"><circle class="halo" r="14"/><circle class="fill" r="5"/><circle class="ring-dot" r="5"/></g>
+        <g class="station" id="st-visit" data-anchor="anchor-visit" transform="translate(32,0)"><circle class="halo" r="14"/><circle class="fill" r="5"/><circle class="ring-dot" r="5"/></g>
+      </svg>
+
+      <p class="threshold chip" id="threshold" aria-hidden="true">You are through the gate.</p>
+
+      <section class="section welcome" id="welcome" data-in aria-labelledby="welcome-title">
+        <span class="station-anchor" id="anchor-welcome" aria-hidden="true"></span>
+        <div class="flow">
+          <p class="kicker rise">7am. The gate opens.</p>
+          <p class="attr rise">Asked on a local Putty Facebook post, December 2023.</p>
+          <p class="question rise">Do we just go in and say hi?</p>
+          <h2 class="yes rise" id="welcome-title">Yes.</h2>
+          <p class="p rise">Drive under the arch any day between 7am and 7pm. Park, walk up to the church or the bookshop, and ask for one of the Fathers. You do not need to book, and you do not need to be Coptic or Orthodox to be welcome here. Come as you are, and come quietly.</p>
+          <p class="p rise">Two hours out of Sydney, the city is gone. The monastery has been on Putty Road since 1993, and monks have prayed here since 1995. Each day has the same shape: praise before dawn, the Liturgy through the morning, a meal, a talk with one of the Fathers, and quiet hours in the open air. You are welcome to share it.</p>
+          <p class="rise"><a class="quiet" href="#visit">Plan your visit</a></p>
+        </div>
+      </section>
+
+      <section class="section requests" id="requests" data-in aria-labelledby="requests-title">
+        <div class="flow">
+          <p class="kicker rise">7am. Before you walk in.</p>
+          <h2 class="rise" id="requests-title">A few kind requests.</h2>
+          <p class="lede rise">For your own benefit and enjoyment during your visit, we ask only this.</p>
+          <ol class="requests-list rise">
+            <li>Keep your voice low. The quiet is why you came.</li>
+            <li>Please dress modestly, as you would for church.</li>
+            <li>Women are welcome all day. Overnight stays are for men only.</li>
+            <li>The Fathers do not hear confessions. Please keep that for your parish priest. They are glad to sit and talk with you at 1pm.</li>
+            <li>Bringing a group, or hoping to stay the night? Please call first on (02) 6579 7093. Youth groups need permission before an overnight stay.</li>
+            <li>Ask the father in charge before you walk into the bush, visit the farm, or bring food or gifts for the monastery.</li>
+            <li>Children are welcome. Please keep them close around the buildings and equipment.</li>
+            <li>Follow the day's timetable, and leave the grounds as you found them.</li>
+          </ol>
+          <p class="rise"><a class="quiet" href="#visit">Plan your visit</a></p>
+        </div>
+      </section>
+
+      <section class="section day" id="day" data-in aria-labelledby="day-title">
+        <span class="station-anchor" id="anchor-day" aria-hidden="true"></span>
+        <div class="flow">
+          <div class="day-head">
+            <p class="kicker rise">9am. Holy Liturgy.</p>
+            <h2 class="rise" id="day-title">The day, hour by hour.</h2>
+            <p class="lede rise">For your own benefit and enjoyment during your visit in the monastery we would like you to observe this timetable:</p>
+          </div>
+          <ol class="tt rise" id="timetable">
+            <li data-start="240" data-end="300"><span class="tt-row"><span class="tt-time">4.00 am</span><span class="tt-label">Midnight praise (Tasbeha), prayed every morning</span></span><span class="row-anchor" id="row-1" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="540" data-end="720"><span class="tt-row"><span class="tt-time">9.00 am to 12.00 pm</span><span class="tt-label">Holy Liturgy</span></span><span class="row-anchor" id="row-2" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="720" data-end="780"><span class="tt-row"><span class="tt-time">12.00 pm to 1.00 pm</span><span class="tt-label">Lunch</span></span><span class="row-anchor" id="row-3" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="780" data-end="840"><span class="tt-row"><span class="tt-time">1.00 pm to 2.00 pm</span><span class="tt-label">Spiritual talk with H.G. Bishop Anba Daniel or one of the Fathers</span></span><span class="row-anchor" id="row-4" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="840" data-end="960"><span class="tt-row"><span class="tt-time">2.00 pm to 4.00 pm</span><span class="tt-label">Personal meditation, the bookshop, or a hand with the work</span></span><span class="row-anchor" id="row-5" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="960" data-end="1020"><span class="tt-row"><span class="tt-time">4.00 pm to 5.00 pm</span><span class="tt-label">Dinner</span></span><span class="row-anchor" id="row-6" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="1020" data-end="1050"><span class="tt-row"><span class="tt-time">5.00 pm to 5.30 pm</span><span class="tt-label">Sunset prayers at church</span></span><span class="row-anchor" id="row-7" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="1020" data-end="1080" data-days="6"><span class="tt-row"><span class="tt-time">5.00 pm to 6.00 pm</span><span class="tt-label">Vesper prayers (Saturdays only)</span></span><span class="row-anchor" id="row-8" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+            <li data-start="1080" data-end="1140"><span class="tt-row"><span class="tt-time">6.00 pm to 7.00 pm</span><span class="tt-label">Departure in peace</span></span><span class="row-anchor" id="row-9" aria-hidden="true"></span><span class="now chip" aria-hidden="true">Now</span></li>
+          </ol>
+          <div class="day-notes rise">
+            <p class="mono">During Great Lent the Holy Liturgy is 12.00 pm to 3.00 pm.</p>
+            <p class="mono">Open to day visitors 7am to 7pm, every day.</p>
+            <p class="day-links"><a class="quiet" href="https://stshenoudamonastery.org.au/visitors/">The full visitors' timetable and rules</a> <a class="quiet" href="#visit">Plan your visit</a></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section questions" id="questions" data-in aria-labelledby="questions-title">
+        <span class="station-anchor" id="anchor-questions" aria-hidden="true"></span>
+        <div class="flow cols">
+          <div class="q-left">
+            <p class="kicker rise">1pm. A talk with a Father.</p>
+            <h2 class="rise" id="questions-title">Monks you can talk to.</h2>
+            <p class="p rise">Monastic life began here in 1995, when two monks came from Egypt, Very Rev Fr Pavlos Anba Bishoy and Rev Fr Bishoy St Anthony. Australian-born monks followed them. Today H.G. Bishop Anba Daniel is Bishop and Abbot. The Fathers pray, work the land, publish books, and keep the gate open. At 1pm there is time to sit and talk with one of them.</p>
+            <p class="fragment rise">lovely monks and one bishop who you can talk to</p>
+            <p class="attr rise">Jenny M, Google review</p>
+            <p class="intro rise">Questions visitors ask, with plain answers.</p>
+          </div>
+          <div class="q-right" data-in>
+            <h3 class="rise">The questions people ask.</h3>
+            <ol class="faq rise" id="faq">
+              <li><p class="q">Do I need to book, or can I just turn up?</p><p class="a">For a day visit, just turn up. Day visitors are welcome from 7am to 7pm, every day. If you are coming as a group or by bus, please call first so the Fathers can expect you: (02) 6579 7093. If you hope to stay the night, call first too.</p></li>
+              <li><p class="q">I am not Coptic. Am I still welcome?</p><p class="a">Yes. You do not need to be Coptic, or Orthodox, to visit. Join the prayers, sit in on the 1pm talk, walk the grounds. Parish groups come every week, and visitors from other churches are welcome; the first Armenian clergy retreat was held here in 2017.</p></li>
+              <li><p class="q">Can women visit?</p><p class="a">Yes, for the day, and at every part of it. Overnight stays in the retreat house are for men only, so if you would like a longer stay, plan a full day instead, from the 9am Liturgy to departure at seven.</p></li>
+              <li><p class="q">Can we stay the night?</p><p class="a">Please call first on (02) 6579 7093. Overnight stays in the retreat house are for men, and youth need the monastery's permission before they stay. Overnight guests keep the full timetable, which begins with midnight praise at 4am.</p><p class="a"><a class="quiet" href="https://stshenoudamonastery.org.au/retreat/">Retreat timetable and rules</a></p></li>
+              <li><p class="q">Can I confess to one of the monks?</p><p class="a">No. The monks do not hear confessions, so please speak with your parish priest. At 1pm each day there is a talk with H.G. Bishop Anba Daniel or one of the Fathers, and you are welcome to join it.</p></li>
+              <li><p class="q">Will I know what to do in the Liturgy?</p><p class="a">No one expects you to. Come in quietly, stand or sit with everyone else, and follow along. Ask a Father afterwards about anything you did not understand. If you would like to understand more before you come, the talks "The Hidden Joy of the Divine Liturgy" and "The Beauty of the Matins Prayers" and the playlist "<a class="textlink" href="https://www.youtube.com/playlist?list=PLVbr51zqG7k1dxINkL5naH4xTaGkNglaw" rel="noopener" target="_blank">Deep Dive into the Liturgy</a>" are on the St Shenouda Press YouTube channel.</p></li>
+              <li><p class="q">Is there food?</p><p class="a">Yes. Lunch is at 12 and dinner at 4. If you would like to bring food or a gift, please ask the Father in charge first.</p></li>
+              <li><p class="q">How do we get there?</p><p class="a">8419 Putty Road, Putty NSW 2330. It is about two hours from Sydney by car, through Windsor and up Putty Road, through the bush between the Wollemi and Yengo national parks. It is 91 km from Windsor and 81 km from Singleton. There is no public transport. Coming with your parish? Some Sydney parishes run a bus. Ask at your church. One visitor's advice: "the road amazing to drive to it."</p><p class="attr">Elia Rizgallah, Google review</p></li>
+              <li><p class="q">Can I bring the children?</p><p class="a">Yes. Church groups visit every week, and families come for the day. Please keep children close around the buildings and equipment, and visit the farm only with the Father in charge.</p></li>
+              <li><p class="q">Does it cost anything?</p><p class="a">There is no charge to visit. Donations are welcome.</p></li>
+              <li><p class="q">Is it a tourist attraction?</p><p class="a">No. It is a monastery, and visitors are welcome in it as guests of a place of prayer. Keep your voice down and keep to the timetable, and you will be very welcome.</p></li>
+              <li><p class="q">Is it wheelchair accessible?</p><p class="a">Please call and ask about what you need: (02) 6579 7093. We would rather talk it through than give you a wrong answer here.</p></li>
+            </ol>
+            <p class="closing rise">Something else? Call <a class="textlink" href="tel:+61265797093">(02) 6579 7093</a> or email <a class="textlink" href="mailto:pimonakhos@stshenoudamonastery.org.au">pimonakhos@stshenoudamonastery.org.au</a></p>
+            <p class="rise"><a class="quiet" href="#visit">Plan your visit</a></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section still" id="still" data-in aria-labelledby="still-title">
+        <div class="still-media">
+          <img class="still-photo" id="still-photo" src="assets/candle.jpg" data-asset="candle.jpg" alt="A monk in a black hood lights candles before the carved wooden screen of the monastery church." width="1200" height="1087" loading="lazy">
+        </div>
+        <div class="dust" id="still-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="flow">
+          <p class="kicker rise">2pm. Personal meditation.</p>
+          <h2 class="rise" id="still-title">Be still.</h2>
+          <p class="lede rise">Two hours with nothing to do. From two until four the timetable says only this: personal meditation, bookshop, work. It is the hardest part of the day to describe, so try it.</p>
+          <div class="hold rise" id="hold">
+            <span class="station-anchor hold-anchor" id="hold-anchor" aria-hidden="true"></span>
+            <button class="hold-target" id="hold-target" type="button" aria-pressed="false" aria-label="Press and hold to let the two quiet hours pass">
+              <svg class="hold-ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                <circle class="hold-track" cx="60" cy="60" r="56"/>
+                <circle class="hold-arc" id="hold-arc" cx="60" cy="60" r="56" pathLength="1000"/>
+              </svg>
+              <span class="hold-clock mono" id="hold-clock" aria-hidden="true">2:00 pm</span>
+            </button>
+          </div>
+          <p class="hold-instruction mono rise" id="hold-instruction">Press and hold.</p>
+          <p class="sr" id="hold-live" aria-live="polite"></p>
+          <div class="revealed rise" id="hold-revealed">
+            <p class="quote split" id="hold-quote" data-split data-entrance="words">To hear God's voice, we need to stop speaking and pay attention.</p>
+            <p class="attr" id="hold-attr">Fr Antonious Kaldas, "The God of My Silence", the monastery's blog, 10 January 2017</p>
+            <p class="rlink-row" id="hold-link-row"><a class="rlink textlink" id="hold-link" href="https://stshenoudamonastery.org.au/god-silence/">Read The God of My Silence</a></p>
+          </div>
+          <p class="rise"><a class="quiet" href="#visit">Plan your visit</a></p>
+        </div>
+        <p class="photo-caption mono">Candles in the monastery church.</p>
+      </section>
+
+      <section class="section words" id="words" data-in aria-labelledby="words-title">
+        <span class="station-anchor" id="anchor-words" aria-hidden="true"></span>
+        <div class="flow">
+          <div class="words-head">
+            <p class="kicker rise">4pm. Dinner.</p>
+            <h2 class="rise" id="words-title">In their words.</h2>
+          </div>
+          <ul class="quotes rise">
+            <li><p class="quote">One of the most peaceful places on earth.</p><p class="attr">Sherry Mikhail, Google review</p></li>
+            <li><p class="quote">Even if you are not Coptic don't hesitate to visit.</p><p class="attr">Joel Paulson M, Google review</p></li>
+            <li><p class="quote">The monks make you feel at home and are so full of wisdom yet easy to talk to.</p><p class="attr">Daniel Hanna, Google review</p></li>
+          </ul>
+          <p class="note small rise">From public Google reviews of the monastery.</p>
+          <p class="quiet-row rise"><a class="quiet" href="#visit">Plan your visit</a></p>
+        </div>
+      </section>
+
+      <section class="section visit" id="visit" data-in aria-labelledby="visit-title">
+        <span class="station-anchor" id="anchor-visit" aria-hidden="true"></span>
+        <div class="flow split-grid">
+          <div class="visit-text">
+            <p class="kicker rise">6pm. Departure in peace.</p>
+            <h2 class="rise" id="visit-title">Plan your visit.</h2>
+            <p class="lede rise">Departure in peace is the last line of the monastery's own timetable. Everything you need for the day is here.</p>
+            <dl class="fact-strip rise" id="fact-strip">
+              <div class="fact"><dt class="fact-label">From Sydney</dt><dd class="fact-figure">about 2 hours by car</dd></div>
+              <div class="fact"><dt class="fact-label">From Windsor</dt><dd class="fact-figure">91 km</dd></div>
+              <div class="fact"><dt class="fact-label">From Singleton</dt><dd class="fact-figure">81 km</dd></div>
+              <div class="fact"><dt class="fact-label">Address</dt><dd class="fact-figure">8419 Putty Road, Putty NSW 2330</dd></div>
+            </dl>
+            <p class="hours rise">Open to day visitors 7am to 7pm, every day. No booking needed.</p>
+            <div class="btn-row rise">
+              <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=8419%20Putty%20Road%2C%20Putty%20NSW%202330" rel="noopener" target="_blank">Get directions</a>
+              <span class="tel-group"><a class="btn btn-secondary" href="tel:+61265797093" title="Call the monastery on (02) 6579 7093">Staying overnight? Call us first.</a> <a class="chip chip-link" href="tel:+61265797093" title="Call the monastery on (02) 6579 7093">(02) 6579 7093</a></span>
+            </div>
+            <p class="textlink-row rise"><a class="textlink" href="mailto:pimonakhos@stshenoudamonastery.org.au">Bringing a group? Email the monastery.</a></p>
+            <p class="rise"><a class="quiet" href="https://stshenoudamonastery.org.au/visitors/">Before you come, read the visitors' timetable and rules.</a></p>
+          </div>
+          <span class="cross-end" id="cross-end" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use class="cross-outline" href="#stsm-cross"/><use class="cross-fill" href="#stsm-cross"/></svg></span>
+          <div class="visit-media rise">
+            <img src="assets/hero-end.jpg" data-asset="hero-end.jpg" alt="The monastery's drive at rest, cypresses either side and a hazy sky above." width="1920" height="1080" loading="lazy">
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="pair-wrap" id="pair" data-in>
+      <p class="kicker pair-kicker rise">On your way home.</p>
+      <div class="pair">
+        <div class="panel rise" id="give">
+          <h3>Share in the blessings.</h3>
+          <p>Gifts support the monastery's building fund and the life of the community.</p>
+          <p><a class="quiet" href="https://stshenoudamonastery.org.au/donate/">Donate</a></p>
+        </div>
+        <div class="panel rise" id="books">
+          <h3>Grow in your Orthodox Faith one Book at a Time.</h3>
+          <p>St Shenouda Press is the monastery's publishing house. For over twenty-five years its books have been used by Sunday schools and youth groups around the world. There is a bookshop at the monastery too.</p>
+          <p><a class="quiet" href="https://www.stshenoudapress.com/" rel="noopener" target="_blank">Visit St Shenouda Press</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot" id="foot">
+    <div class="foot-cols">
+      <div class="foot-col">
+        <p class="foot-name">St Shenouda Coptic Orthodox Monastery</p>
+        <ul>
+          <li>8419 Putty Road, Putty NSW 2330, Australia</li>
+          <li><a class="textlink" href="tel:+61265797093">(02) 6579 7093</a></li>
+          <li><a class="textlink" href="mailto:pimonakhos@stshenoudamonastery.org.au">pimonakhos@stshenoudamonastery.org.au</a></li>
+          <li>Open to day visitors every day, 7am to 7pm</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h3>The monastery</h3>
+        <ul>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/about-us/">About us</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/saint-shenouda/">Saint Shenouda</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/bishop-anba-daniel/">H.G. Bishop Anba Daniel</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/visitors/">Visitors' timetable and rules</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/retreat/">Retreat timetable and rules</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/blog/">Blog</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/events/">Events</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/donate/">Donate</a></li>
+          <li><a class="textlink" href="https://stshenoudamonastery.org.au/contact-us/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h3>Also from the monastery</h3>
+        <ul>
+          <li><a class="textlink" href="https://www.stshenoudapress.com/">St Shenouda Press</a></li>
+          <li><a class="textlink" href="https://www.asaphtunes.com/">Asaph Tunes</a></li>
+          <li><a class="textlink" href="https://preview.mailerlite.io/forms/1220850/163051386328582128/share">Pimonakhos, a monthly newsletter with monastic issues for today's youth</a></li>
+          <li><a class="textlink" href="https://www.youtube.com/@StShenoudaPress">YouTube</a></li>
+          <li><a class="textlink" href="https://www.instagram.com/stshenouda_press/">Instagram</a></li>
+          <li><a class="textlink" href="https://www.facebook.com/stshenoudapress">Facebook</a></li>
+        </ul>
+        <p class="foot-small">The YouTube, Instagram and Facebook accounts are run by St Shenouda Press, the monastery's publishing house.</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-close">Enjoy Your Day &amp; God Bless You All</p>
+      <p class="foot-small">The opening scene is animated from a frame of the monastery's own drone footage of the gate. The photographs are of the monastery.</p>
+      <p class="foot-small">&copy; 2026 St Shenouda Coptic Orthodox Monastery</p>
+    </div>
+  </footer>
+</div>

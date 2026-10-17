@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>stsm-home mount test</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:,">
+  <!--
+    The hostile host page from the design package, section 10, point 13. It stands in for a Wix page before
+    anything is placed in the Wix Editor: a 90 px fixed header, an overflow: hidden wrapper and a
+    transform: translateZ(0) wrapper around the element, plus Wix-like body resets, several of them
+    inheritable on purpose (colour, letter-spacing, word-spacing, text-align, font) so the shadow boundary
+    is proven, not assumed. Serve the deploy folder on port 8765 and open this file from it:
+      node review/tools/serve.mjs --port 8765          (a CORS server standing in for GitHub Pages)
+      http://127.0.0.1:8765/wix/mount-test.html         (cross-origin: the page is 127.0.0.1, the assets localhost)
+      http://localhost:8765/wix/mount-test.html         (same origin)
+    Nothing here ships into the Wix page; only stsm-home.js does.
+  -->
+  <style>
+    html, body { margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
+    body {
+      background: #ffffff;
+      color: #c00000;
+      font: 13px/1.3 Arial, Helvetica, sans-serif;
+      letter-spacing: .4px;
+      word-spacing: 2px;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, p, ul, ol, li, figure, blockquote { margin: 0; padding: 0; }
+    ul, ol { list-style: none; }
+    a { color: #0000ee; text-decoration: underline; }
+    img, svg, video { max-width: none; display: inline; vertical-align: baseline; }
+    button { font: inherit; border: 0; padding: 0; margin: 0; background: none; color: inherit; cursor: pointer; }
+    section, article, main { display: block; }
+
+    .wix-header {
+      position: fixed; top: 0; left: 0; right: 0; height: 90px; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px;
+      background: #1f2328; color: #ffffff; text-align: left;
+    }
+    .wix-header button { padding: 10px 16px; border: 1px solid #ffffff; border-radius: 4px; }
+    .wix-page { padding-top: 90px; }
+    .wix-clip { overflow: hidden; }
+    .wix-gpu { transform: translateZ(0); }
+    stsm-home { display: block; width: 100%; }
+    .wix-footer { padding: 48px 24px; background: #1f2328; color: #ffffff; }
+    .wix-log { font: 12px/1.5 monospace; color: #555; padding: 12px 24px; text-align: left; }
+  </style>
+</head>
+<body>
+  <header class="wix-header">
+    <span>Fake Wix header, 90 px, fixed</span>
+    <button type="button" id="host-visit">Plan your visit (host header)</button>
+  </header>
+
+  <div class="wix-page">
+    <div class="wix-clip">
+      <div class="wix-gpu">
+        <stsm-home id="home" data-base="http://localhost:8765" data-top-offset="90"></stsm-home>
+      </div>
+    </div>
+    <p class="wix-log" id="height-log">stsm-height: waiting</p>
+    <footer class="wix-footer">Fake Wix footer</footer>
+  </div>
+
+  <script>
+    (function () {
+      var home = document.getElementById('home');
+      var log = document.getElementById('height-log');
+      window.__stsmHeights = [];
+      home.addEventListener('stsm-height', function (e) {
+        window.__stsmHeights.push(e.detail.height);
+        log.textContent = 'stsm-height: ' + e.detail.height + ' px (' + window.__stsmHeights.length + ' events)';
+        console.log('stsm-height', e.detail.height);
+      });
+      home.addEventListener('stsm-ready', function () { console.log('stsm-ready'); });
+      document.getElementById('host-visit').addEventListener('click', function () { home.scrollToVisit(); });
+    })();
+  </script>
+  <script src="http://localhost:8765/wix/stsm-home.js"></script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+/*
+  St Shenouda Coptic Orthodox Monastery, Putty NSW. "Through the Gate."
+  assets/site.css. Builder 1: markup, CSS and the vector mark. Builder 2 writes site.js against this file
+  and review/build-contract.md. Plain CSS, no build step. Animate only transform and opacity, plus the
+  stroke-dashoffset writes that draw the Drive Line, the cross outline, the hold ring and the loading ring.
+
+  FINAL PALETTE, sampled 16 October 2026 from the approved footage with review/tools/sample-palette.py
+  (hero-poster.jpg, hero-end.jpg, candle.jpg). Every token keeps its role and direction from design package
+  section 2; hex values moved only where the footage differs from the provisional reference frame. The real
+  dawn is warmer and paler than the reference: the sky top centre reads #DBD9D2 (poster) and #D9D7D0 (end),
+  the upper-right haze #EEEAE0 and #E8E3DB, the deeper blue-grey sky in the upper-left corner #C1C8C8,
+  the far treeline in haze #9E978C, sunlit brick #7A583F, shadowed brick #63503A to #5C4532, cypress
+  #1E2116 to #2A291A, tarmac #5E564A, the candle flame core #FDFEFE with a #E4BA94 halo, the wax #F6F1BE,
+  the cassock #333839 (darkest #202627).
+
+  token              final     provisional  sampled from                                  role
+  --canvas           #DDDCD5   #DCE0E3      between the haze (#ECE8DF) and the sky top    the page ground, never pure white
+  --panel            #E9E8E3   #E8EAEC      the far treeline haze, barely cooled          raised surfaces, the Give and Books pair
+  --sky              #C1C8C8   #A0B3CA      upper-left sky corner, both frames            environment drift blob, hero veil outer edge
+  --haze             #ECE8DF   #E9E9ED      upper-right haze, both frames                 the veil colour under hero text, gradient top
+  --accent           #6E5440   #8A5F44      brick in morning shadow (#63503A to #7A583F)  CTA, focus rings, lit stations, cross, numerals
+  --accent-hover     #5A4433   #704B35      the same brick a step deeper                  button hover
+  --accent-muted     rgba(110,84,64,.16)    the accent at whisper level                   station halos, the cross glow, the Yes glow
+  --accent-evening   #E8CF9C   #DFC38F      candle gold, between halo #E4BA94 and wax     ONLY inside the dark 2pm panel
+  --text-primary     #24261F   #24261F      cypress, warmed one step (unchanged)          body text
+  --text-secondary   #5C544A   #5E5650      the drive's tarmac #5E564A, deepened a step   secondary text, kickers, outlined button
+  --line             rgba(36,38,31,.30)     text-primary at 30 percent                    the Drive Line at rest (decorative)
+  --church           #1F2426   #1F2124      the cassock, deepened                         the ground of the 2pm section only
+  --text-on-dark     #ECE8DF   #E9E9ED      the haze                                      text inside the dark section
+  --flame            #F7E3C6   #F8E7CF      between the flame core and its halo           the glow over the real flames, once
+  --btn-text         #F3F0EA   #F2F1EE      the haze, lifted                              label on the accent button
+  --veil             236,232,223            rgb triplet of --haze                         the pale hero scrims and chips
+
+  WCAG 2.x contrast, recomputed with review/tools/contrast.py on the final values:
+  text-primary on canvas        11.13:1   body text, needs 4.5   pass
+  text-secondary on canvas       5.41:1   body text, needs 4.5   pass
+  text-secondary on panel        6.07:1   body text, needs 4.5   pass
+  btn-text on accent             6.14:1   button label, 4.5      pass
+  btn-text on accent-hover       7.99:1   button label, 4.5      pass
+  accent on canvas               5.08:1   large text and UI, 3   pass (never used for small body text)
+  accent on panel                5.70:1   large text and UI, 3   pass
+  accent on haze (focus ring)    5.72:1   UI, 3                  pass
+  text-primary on haze          12.52:1   hero text over veil    pass
+  text-primary on sky            9.01:1   worst environment tone pass
+  text-on-dark on church        12.83:1   body text, 4.5         pass
+  accent-evening on church      10.34:1   link and ring, 4.5     pass
+  accent on church               2.25:1   below the 3:1 floor, which is why --accent-evening exists
+  text-secondary as FAQ hairline 5.41:1   interactive hairline, 3 pass
+  --line is decorative and non-interactive, so it may sit below 3:1.
+*/
+
+:host, :root {
+  --canvas: #DDDCD5;
+  --canvas-rgb: 221, 220, 213;
+  --panel: #E9E8E3;
+  --sky: #C1C8C8;
+  --haze: #ECE8DF;
+  --accent: #6E5440;
+  --accent-hover: #5A4433;
+  --accent-muted: rgba(110, 84, 64, .16);
+  --accent-evening: #E8CF9C;
+  --accent-evening-rgb: 232, 207, 156;
+  --text-primary: #24261F;
+  --text-secondary: #5C544A;
+  --line: rgba(36, 38, 31, .30);
+  --church: #1F2426;
+  --church-rgb: 31, 36, 38;
+  --text-on-dark: #ECE8DF;
+  --flame: #F7E3C6;
+  --flame-rgb: 247, 227, 198;
+  --btn-text: #F3F0EA;
+  --veil: 236, 232, 223;
+  --tshadow-light: 0 1px 2px rgba(236, 232, 223, .85), 0 3px 14px rgba(236, 232, 223, .65), 0 10px 40px rgba(236, 232, 223, .55);
+  --tshadow-dark: 0 1px 2px rgba(5, 5, 10, .95), 0 3px 12px rgba(5, 5, 10, .78), 0 10px 44px rgba(5, 5, 10, .8);
+  --ease-still: cubic-bezier(.22, .61, .36, 1);
+  --ease-settle: cubic-bezier(.16, 1, .3, 1);
+  --dur: 700ms;
+  --dur-slow: 1200ms;
+  --top-offset: 0px;
+  --font-display: "Cardo", "Times New Roman", Georgia, serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Courier Prime", "Courier New", Courier, monospace;
+  --stagger: 130ms;
+}
+
+:host { display: block; overflow-x: hidden; overflow-x: clip; }
+
+/* ---------- the wrapper (carries what html and body carry in standalone) ---------- */
+
+.stsm {
+  position: relative;
+  overflow-x: hidden;
+  overflow-x: clip;
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  animation: stsm-page-in 900ms var(--ease-still) both;
+}
+.stsm *, .stsm *::before, .stsm *::after { box-sizing: border-box; }
+.stsm.paused *, .stsm.paused *::before, .stsm.paused *::after { animation-play-state: paused !important; }
+.stsm img, .stsm svg { max-width: 100%; }
+.stsm p { margin: 0 0 1.2em; }
+.stsm h1, .stsm h2, .stsm h3 { font-family: var(--font-display); font-weight: 400; margin: 0; }
+.stsm h2 { font-size: clamp(32px, 4vw, 56px); line-height: 1.1; max-width: 18ch; margin: 0 0 .55em; }
+.stsm h3 { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2; max-width: 22ch; margin: 0 0 .6em; }
+.stsm a { color: inherit; }
+.stsm .mono, .stsm .kicker, .stsm .chip, .stsm .attr, .stsm .small { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; }
+.stsm .kicker { text-transform: uppercase; color: var(--text-secondary); margin: 0 0 16px; }
+.stsm .attr { color: var(--text-secondary); margin: .6em 0 0; }
+.stsm .small { color: var(--text-secondary); font-size: 12px; }
+.stsm .lede, .stsm .p { max-width: 56ch; }
+.stsm .q, .stsm .question { font-family: var(--font-display); font-style: italic; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.25; max-width: 24ch; }
+.stsm .sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.stsm #main:focus { outline: none; }
+
+@keyframes stsm-page-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- the chip (layer 4 of the legibility system) ---------- */
+
+.stsm .chip {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: var(--text-primary);
+  background: rgba(var(--veil), .62);
+  border: 1px solid rgba(36, 38, 31, .14);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  text-shadow: none;
+  text-decoration: none;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.stsm a.chip:hover { opacity: .85; }
+
+/* ---------- skip link ---------- */
+
+.stsm .skip {
+  position: absolute; left: 16px; top: calc(var(--top-offset) + 8px); z-index: 40;
+  padding: 10px 16px; border-radius: 8px;
+  background: var(--accent); color: var(--btn-text); font-weight: 700; text-decoration: none;
+  transform: translateY(-200%); opacity: 0;
+  transition: transform var(--dur) var(--ease-settle), opacity var(--dur) var(--ease-still);
+}
+.stsm .skip:focus, .stsm .skip:focus-visible { transform: translateY(0); opacity: 1; outline-color: var(--text-primary); }
+
+/* ---------- the environment: sticky backdrop, two drifting blobs, grain ---------- */
+
+.stsm .env {
+  position: sticky; top: var(--top-offset); z-index: 0;
+  height: 100vh; margin-bottom: -100vh;
+  overflow: hidden; pointer-events: none;
+  background: linear-gradient(180deg, var(--haze) 0%, var(--canvas) 52%, var(--sky) 100%);
+}
+.stsm .env::after {
+  content: ""; position: absolute; inset: 0;
+  background: rgba(var(--church-rgb), .2);
+  opacity: var(--hold, 0);
+}
+.stsm .env-blob { position: absolute; border-radius: 50%; width: 82vmax; height: 82vmax; will-change: transform; }
+.stsm .env-blob-a { left: -22vmax; top: -30vmax; background: radial-gradient(circle, rgba(236, 232, 223, .40) 0%, rgba(236, 232, 223, .18) 36%, rgba(236, 232, 223, 0) 70%); transform: translate(-4%, -3%); }
+.stsm .env-blob-b { right: -26vmax; bottom: -34vmax; background: radial-gradient(circle, rgba(193, 200, 200, .22) 0%, rgba(193, 200, 200, .10) 38%, rgba(193, 200, 200, 0) 70%); transform: translate(4%, 3%); }
+.stsm.alive .env-blob-a, .stsm .env.alive .env-blob-a { animation: stsm-drift-a 90s ease-in-out -37s infinite; }
+.stsm.alive .env-blob-b, .stsm .env.alive .env-blob-b { animation: stsm-drift-b 90s ease-in-out -61s infinite; }
+.stsm .grain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .03; mix-blend-mode: multiply; }
+@keyframes stsm-drift-a { 0% { transform: translate(-4%, -3%); } 50% { transform: translate(6%, 7%); } 100% { transform: translate(-4%, -3%); } }
+@keyframes stsm-drift-b { 0% { transform: translate(4%, 3%); } 50% { transform: translate(-7%, -6%); } 100% { transform: translate(4%, 3%); } }
+
+/* ---------- nav (sticky to the top of the element, 56px) ---------- */
+
+.stsm .nav {
+  position: sticky; top: var(--top-offset); z-index: 20;
+  height: 56px; margin-bottom: -56px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 0 24px;
+  background: rgba(var(--canvas-rgb), .82);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: calc(1 - .7 * var(--hold, 0));
+}
+.stsm .nav::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line); opacity: 0; transition: opacity var(--dur-slow) var(--ease-still); }
+.stsm .nav.settled::after { opacity: 1; }
+.stsm[data-nav="off"] .nav { display: none; }
+.stsm .nav-mark { display: inline-flex; align-items: center; gap: 10px; color: var(--text-primary); text-decoration: none; font-family: var(--font-display); font-size: 20px; line-height: 1; white-space: nowrap; }
+.stsm .nav-mark .cross { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.stsm .cross { display: inline-block; fill: currentColor; fill-rule: evenodd; }
+.stsm .nav-links { display: flex; align-items: baseline; gap: 28px; margin-left: auto; }
+.stsm .nav-links a { font-size: 15px; text-decoration: none; color: var(--text-primary); position: relative; }
+.stsm .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; opacity: 0; transition: opacity var(--dur) var(--ease-still); }
+.stsm .nav-links a:hover::after { opacity: .7; }
+.stsm .nav .btn { padding: 8px 16px; font-size: 14px; flex: none; }
+
+/* ---------- buttons and quiet links ---------- */
+
+.stsm .btn {
+  position: relative; z-index: 0;
+  display: inline-block;
+  font-family: var(--font-body); font-weight: 700; font-size: 16px; line-height: 1.2;
+  padding: 14px 26px; border-radius: 8px;
+  text-decoration: none; text-shadow: none; white-space: nowrap;
+  border: 1px solid transparent;
+  transition: transform var(--dur) var(--ease-settle);
+}
+.stsm .btn::after { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; opacity: 0; transition: opacity var(--dur) var(--ease-still); }
+.stsm .btn:hover { transform: translateY(-1px); }
+.stsm .btn:hover::after { opacity: 1; }
+.stsm .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--btn-text); }
+.stsm .btn-primary::after { background: var(--accent-hover); }
+.stsm .btn-secondary { background: transparent; border-color: var(--text-secondary); color: var(--text-primary); }
+.stsm .btn-secondary::after { background: rgba(92, 84, 74, .10); }
+.stsm .quiet { position: relative; display: inline-block; font-family: var(--font-body); font-size: 16px; color: var(--text-primary); text-decoration: none; padding-bottom: 2px; }
+.stsm .quiet::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; opacity: .45; transition: opacity var(--dur) var(--ease-still); }
+.stsm .quiet:hover::after { opacity: 1; }
+.stsm .textlink { color: inherit; text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; transition: opacity var(--dur) var(--ease-still); }
+.stsm .textlink:hover { opacity: .72; }
+.stsm .tel { color: inherit; text-decoration: none; }
+.stsm .tel:hover { opacity: .8; }
+.stsm :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.stsm .still :focus-visible { outline-color: var(--accent-evening); }
+
+/* ---------- the hero: pinned 600vh (raised from 520vh by the flick test, 16 October 2026), sticky stage ---------- */
+
+.stsm #main { position: relative; z-index: 1; }   /* by id: inside Wix the <main> becomes <div id="main" role="region"> */
+.stsm .hero { position: relative; height: 600vh; margin: 0; }
+.stsm .stage {
+  position: sticky; top: var(--top-offset);
+  height: 100vh; height: calc(100vh - var(--top-offset));
+  overflow: hidden;
+  background: var(--canvas);
+  --cue: 1; --lift: 0;
+}
+.stsm .stage-media { position: absolute; inset: 0; }
+.stsm .poster { position: absolute; inset: 0; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
+.stsm .stage video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; will-change: transform;
+  transition: opacity var(--dur) var(--ease-still);
+}
+.stsm .stage.video-ready video { opacity: 1; }
+.stsm .stage.video-failed video { display: none; }
+/* layer 1: the global base veil, always on */
+.stsm .veil { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 90% at 50% 38%, rgba(var(--veil), .34) 0%, rgba(var(--veil), .10) 45%, rgba(var(--veil), 0) 75%); }
+/* the haze lift: the footage dissolves into the page */
+.stsm .lift { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(180deg, rgba(var(--canvas-rgb), 0) 0%, rgba(var(--canvas-rgb), .55) 55%, var(--canvas) 100%); opacity: var(--lift, 0); }
+
+/* dawn dust */
+.stsm .dust { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.stsm .dust i { position: absolute; top: 0; bottom: 0; width: 2px; display: block; transform: translate(0, 100%); }
+.stsm .dust i::before { content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 2px; border-radius: 50%; background: var(--text-primary); opacity: .08; }
+.stsm .still .dust i::before { background: var(--text-on-dark); }
+.stsm .alive .dust i { animation: stsm-dust var(--dd, 50s) linear var(--dl, 0s) infinite; }
+.stsm .dust i:nth-child(1) { left: 8%; --dd: 44s; --dl: -11s; --dx: 6px; }
+.stsm .dust i:nth-child(2) { left: 17%; --dd: 52s; --dl: -29s; --dx: -5px; }
+.stsm .dust i:nth-child(3) { left: 26%; --dd: 48s; --dl: -5s; --dx: 8px; }
+.stsm .dust i:nth-child(4) { left: 33%; --dd: 58s; --dl: -40s; --dx: -7px; }
+.stsm .dust i:nth-child(5) { left: 41%; --dd: 46s; --dl: -19s; --dx: 4px; }
+.stsm .dust i:nth-child(6) { left: 49%; --dd: 55s; --dl: -33s; --dx: -6px; }
+.stsm .dust i:nth-child(7) { left: 57%; --dd: 42s; --dl: -8s; --dx: 7px; }
+.stsm .dust i:nth-child(8) { left: 64%; --dd: 60s; --dl: -47s; --dx: -4px; }
+.stsm .dust i:nth-child(9) { left: 72%; --dd: 50s; --dl: -22s; --dx: 5px; }
+.stsm .dust i:nth-child(10) { left: 80%; --dd: 45s; --dl: -14s; --dx: -8px; }
+.stsm .dust i:nth-child(11) { left: 88%; --dd: 57s; --dl: -36s; --dx: 6px; }
+.stsm .dust i:nth-child(12) { left: 95%; --dd: 49s; --dl: -27s; --dx: -5px; }
+@keyframes stsm-dust { from { transform: translate(0, 100%); } to { transform: translate(var(--dx, 6px), -2%); } }
+
+/* the caption bands */
+.stsm .bands { position: absolute; inset: 0; pointer-events: none; }
+.stsm .band {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: min(100%, 1100px); padding: 7vh 5vw;
+  text-align: center; opacity: 0;
+  text-shadow: var(--tshadow-light);
+  isolation: isolate;
+  --va: .50; --vb: .33;
+}
+.stsm .band a { pointer-events: auto; }
+.stsm .band .btn { text-shadow: none; }
+/* layer 2: the per-band veil, riding the band's opacity and deepening with --k */
+.stsm .band::before {
+  content: ""; position: absolute; inset: -4%; pointer-events: none; z-index: -1;
+  opacity: calc(.25 + .75 * var(--k, 1));
+  background: radial-gradient(ellipse 74% 62% at 50% 50%, rgba(var(--veil), var(--va)) 0%, rgba(var(--veil), var(--vb)) 46%, rgba(var(--veil), 0) 76%);
+}
+.stsm .band > * { position: relative; }
+.stsm .band-1 { top: 2vh; opacity: 1; --va: .58; --vb: .383; }
+.stsm .band-2 { top: 8vh; --va: .50; --vb: .33; }
+/* band 3, the merged threshold: "Come in." alone on its first line, centred in the light of the arch (the line's
+   centre sits at 50 percent of the stage), and the rest of the sentence rising beneath it as the trees pass */
+.stsm .band-3 { top: 50%; transform: translateX(-50%); margin-top: calc(-7vh - .55 * clamp(32px, 4vw, 56px)); width: min(100%, 700px); padding: 7vh 4vw; --va: .58; --vb: .383; --va2: .66; --vb2: .44; --slope: 5; }
+/* its veil comes in two ellipses: a tight one on "Come in." that rides the band's opacity, and a lower, deeper one
+   under the three trailing lines (the cypress trunks and the drive's shadow pass beneath them from progress .62 to .76;
+   worst-frame audit 17 October 2026: 66% 44% at .58/.383 left 'Liturgy.', 'A', 'Then' and 'quiet.' at 2.79 to 3.29)
+   that arrives on --k just before their first word rises (k .32 to .47) */
+.stsm .band-3::before { opacity: 1; background: radial-gradient(ellipse 58% 30% at 50% 27%, rgba(var(--veil), var(--va)) 0%, rgba(var(--veil), var(--vb)) 46%, rgba(var(--veil), 0) 76%); }
+.stsm .band-3::after { content: ""; position: absolute; inset: -4%; pointer-events: none; z-index: -1; opacity: clamp(0, (var(--k, 1) - .32) * 6.7, 1); background: radial-gradient(ellipse 72% 60% at 50% 56%, rgba(var(--veil), var(--va2)) 0%, rgba(var(--veil), var(--vb2)) 46%, rgba(var(--veil), 0) 76%); }
+.stsm .band-4 { inset: 0; left: 0; width: auto; transform: none; padding: 0; --va: .56; --vb: .37; }
+.stsm .band-4::before { inset: auto; top: 2vh; left: 50%; transform: translateX(-50%); width: min(100%, 1100px); height: 62vh; }
+.stsm .band-4 .settle { position: absolute; top: 12vh; left: 50%; transform: translateX(-50%); width: min(92%, 1100px); padding: 0 2vw; }
+
+.stsm .h1 { display: flex; flex-direction: column; align-items: center; gap: 18px; font-weight: 400; }
+.stsm .h1 .chip, .stsm .hero-static .chip { font-weight: 400; white-space: normal; max-width: 100%; }
+.stsm .h1-line { display: block; font-family: var(--font-display); font-size: clamp(40px, 5.2vw, 76px); line-height: 1.05; max-width: 18ch; margin: 0 auto; }
+.stsm .band .line { display: block; font-family: var(--font-display); font-size: clamp(32px, 4vw, 56px); line-height: 1.1; max-width: 18ch; margin: 0 auto; }
+.stsm .band-4 h2 { font-size: clamp(32px, 4vw, 56px); line-height: 1.1; max-width: 18ch; margin: 0 auto; }
+.stsm .band-4 .sub, .stsm .hero-static .sub { font-size: 18px; max-width: 34ch; margin: 20px auto 0; }
+.stsm .cta-row, .stsm .hero-static .cta-row { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 28px; }
+.stsm .cta-row .tel-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 14px; font-size: 16px; }
+.stsm .band-1 .chip { opacity: var(--k, 1); }
+
+/* the split text (Builder 2 builds .sr + .vis of .w and .c spans, plus .soft for mist and approach) */
+.stsm .split { position: relative; display: block; }
+.stsm .split .vis { display: block; }
+.stsm .split .soft { position: absolute; inset: 0; display: block; pointer-events: none; filter: blur(10px); opacity: calc(1 - var(--k, 1)); }
+.stsm .split .w { display: inline-block; }
+.stsm .split .c { display: inline-block; }
+/* a hero caption waits for its split (site.js adds .is-split) so the sharp fallback line never shows before the mist; no-JS pages never carry .js */
+.stsm.js .band [data-split]:not(.is-split) { opacity: 0; }
+/* mist-clear: the sharp copy fades in, the soft copy fades out */
+.stsm .split[data-entrance="mist"] .vis { opacity: var(--k, 1); }
+/* approach-from-depth: scale .88 to 1 with the push, the soft copy sharpening beneath */
+.stsm .split[data-entrance="approach"] .vis { opacity: var(--k, 1); transform: scale(calc(.88 + .12 * var(--k, 1))); transform-origin: 50% 50%; }
+.stsm .split[data-entrance="approach"] .soft { transform: scale(calc(.88 + .12 * var(--k, 1))); transform-origin: 50% 50%; }
+/* cypress stagger: word-by-word rise, 10px, ordered thresholds from data-spread (and data-lead: the leading words sit
+   settled from the first frame, the rest follow on later thresholds); --slope is how fast each word rises in --k */
+.stsm .split[data-entrance="stagger"] .w { --kc: clamp(0, (var(--k, 1) - var(--th, 0)) * var(--slope, 2.6), 1); opacity: var(--kc); transform: translateY(calc((1 - var(--kc)) * 10px)); }
+/* settle: headline words rise in reading order, then the subline at --k .66, the CTA row at .78, the line at .80 to 1 */
+.stsm .split[data-entrance="settle"] .w { --kc: clamp(0, (var(--k, 1) - var(--th, 0)) * 3, 1); opacity: var(--kc); transform: translateY(calc((1 - var(--kc)) * 12px)); }
+.stsm .band-4 .sub { --ks: clamp(0, (var(--k, 1) - .66) * 4, 1); opacity: var(--ks); transform: translateY(calc((1 - var(--ks)) * 8px)); }
+.stsm .band-4 .cta-row { --kb: clamp(0, (var(--k, 1) - .78) * 5, 1); opacity: var(--kb); transform: translateY(calc((1 - var(--kb)) * 8px)); }
+/* the birth of the Drive Line: one <line> in a viewport-sized svg (no viewBox, so the dash pattern is one unbroken run) */
+.stsm .birth { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; --kl: clamp(0, (var(--k, 1) - .8) * 5, 1); }
+.stsm .birth line { fill: none; stroke: var(--line); stroke-width: 1px; stroke-dasharray: 1000; stroke-dashoffset: calc(1000 * (1 - var(--kl, 1))); }
+/* the revealed quote in the 2pm panel: word by word over about 1.8 seconds once .in is set */
+.stsm .split[data-entrance="words"] .w { opacity: 0; transition: opacity 600ms var(--ease-still); transition-delay: calc(var(--i, 0) * 120ms); }
+.stsm .revealed.in .split[data-entrance="words"] .w { opacity: 1; }
+.stsm .revealed.in.done .split[data-entrance="words"] .w { transition-delay: 0s; }
+
+/* the loading ring, the chevron that replaces it on failure, the scroll cue */
+.stsm .ring { position: absolute; top: calc(var(--top-offset) + 72px); right: 24px; width: 48px; height: 48px; color: var(--text-secondary); opacity: .9; transition: opacity var(--dur) var(--ease-still); }
+.stsm .ring circle { transform: rotate(-90deg); transform-origin: 50% 50%; }
+.stsm .stage.video-ready .ring { opacity: 0; }
+.stsm .chevron { position: absolute; top: calc(var(--top-offset) + 80px); right: 32px; width: 28px; height: 28px; color: var(--text-secondary); opacity: .8; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.stsm .cue { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); opacity: var(--cue, 1); }
+
+/* ---------- the static hero (phones, portrait tablets, coarse portrait, sideways phones, reduced motion) ---------- */
+
+.stsm .hero-static { display: none; position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; background: var(--canvas); text-align: center; text-shadow: var(--tshadow-light); }
+.stsm .hero-static-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.stsm .hero-static-veil { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 90% at 50% 38%, rgba(var(--veil), .34) 0%, rgba(var(--veil), .10) 45%, rgba(var(--veil), 0) 75%); }
+/* the copy block's veil: 84 percent tall so the tel line at 59 percent of a phone screen sits inside it (audited 17 October 2026
+   at 375x812 and 375x667: every line at 3.5:1 or better; .64/.46 left the 667 subline at 3.42) */
+.stsm .hero-static-veil::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 84%; background: radial-gradient(ellipse 80% 66% at 50% 46%, rgba(var(--veil), .68) 0%, rgba(var(--veil), .50) 50%, rgba(var(--veil), 0) 80%); }
+.stsm .hero-static-veil::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(180deg, rgba(var(--canvas-rgb), 0) 0%, var(--canvas) 100%); }
+.stsm .hero-static-copy { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: calc(var(--top-offset) + 96px) 24px 72px; }
+.stsm .hero-static-copy > * { animation: stsm-rise var(--dur-slow) var(--ease-settle) both; }
+.stsm .hero-static-copy > :nth-child(2) { animation-delay: 140ms; }
+.stsm .hero-static-copy > :nth-child(3) { animation-delay: 280ms; }
+.stsm .hero-static-copy > :nth-child(4) { animation-delay: 420ms; }
+@keyframes stsm-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* the five static-hero gates, character for character the scrub pipeline's and site.js's GATES list */
+@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse), (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce) {
+  .stsm .hero { height: auto; }
+  .stsm .stage { display: none; }
+  .stsm .hero-static { display: block; }
+}
+
+/* ---------- the walk: the Drive Line, the threshold, the stations ---------- */
+
+.stsm .walk { position: relative; }
+.stsm .drive { position: absolute; top: 0; left: calc(50% - 32px); width: 64px; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
+.stsm .drive-path { fill: none; stroke: var(--line); stroke-width: 1; }
+.stsm .drive-path-dark { stroke: rgba(236, 232, 223, .30); }
+.stsm .station .ring-dot { fill: none; stroke: var(--line); stroke-width: 1; }
+.stsm .station .fill { fill: var(--accent); opacity: 0; transition: opacity var(--dur-slow) var(--ease-still); }
+.stsm .station .halo { fill: var(--accent-muted); opacity: 0; transition: opacity var(--dur-slow) var(--ease-still); }
+.stsm .station.lit .fill { opacity: 1; }
+.stsm .station.lit .halo { opacity: .55; }
+.stsm .station.lit.alive .halo { animation: stsm-halo 8s ease-in-out -2.6s infinite; }
+.stsm .station.alive.is-now.lit .halo { animation: stsm-halo 6s ease-in-out -1.4s infinite; }
+.stsm .station.alive.breath.lit .halo { animation: stsm-halo 6s ease-in-out -1.4s infinite; }
+@keyframes stsm-halo { 0% { opacity: .35; } 50% { opacity: .75; } 100% { opacity: .35; } }
+@keyframes stsm-breathe { 0% { opacity: .35; } 50% { opacity: .6; } 100% { opacity: .35; } }
+.stsm .threshold { position: absolute; top: 12vh; left: 50%; transform: translateX(-50%); z-index: 2; opacity: var(--k, 1); }
+.stsm .station-anchor { display: block; width: 24px; height: 24px; margin: 0 auto 20px; }
+
+/* ---------- sections and entrances ---------- */
+
+.stsm .section { position: relative; padding: 14vh 24px; }
+.stsm .flow { position: relative; z-index: 2; }
+.stsm.js [data-in] .rise { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-slow) var(--ease-settle), transform var(--dur-slow) var(--ease-settle); }
+.stsm.js [data-in].in .rise { opacity: 1; transform: translateY(0); }
+.stsm.js [data-in].in .rise:nth-child(2) { transition-delay: calc(var(--stagger) * 1); }
+.stsm.js [data-in].in .rise:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
+.stsm.js [data-in].in .rise:nth-child(4) { transition-delay: calc(var(--stagger) * 3); }
+.stsm.js [data-in].in .rise:nth-child(5) { transition-delay: calc(var(--stagger) * 4); }
+.stsm.js [data-in].in .rise:nth-child(6) { transition-delay: calc(var(--stagger) * 5); }
+.stsm.js [data-in].in .rise:nth-child(7) { transition-delay: calc(var(--stagger) * 6); }
+.stsm.js [data-in].in .rise:nth-child(8) { transition-delay: calc(var(--stagger) * 7); }
+.stsm.js [data-in].in .rise:nth-child(n+9) { transition-delay: calc(var(--stagger) * 8); }
+/* the cleanup: equal specificity to every delay rule above (attribute + two classes + class + pseudo-class), later in the source */
+.stsm.js [data-in].in.done .rise { transition-delay: 0s; }
+
+/* 7am. The gate opens. One centred statement on the line. */
+.stsm .welcome { padding-top: 20vh; padding-bottom: 32vh; text-align: center; }   /* 20vh: the threshold chip (12vh to 12vh + 32px) clears the 7am station ring */
+.stsm .welcome .flow { max-width: 760px; margin: 0 auto; }
+.stsm .welcome .question { margin: 0 auto 18px; }
+.stsm .welcome .yes { position: relative; display: inline-block; color: var(--accent); margin: 0 auto 28px; }
+.stsm .welcome .yes::before { content: ""; position: absolute; inset: -6px -18px; border-radius: 50%; box-shadow: 0 0 44px 22px var(--accent-muted); opacity: .35; z-index: -1; }
+.stsm .welcome.alive .yes::before { animation: stsm-breathe 8s ease-in-out -3.1s infinite; }
+.stsm .welcome .p { margin-left: auto; margin-right: auto; }
+.stsm .welcome .quiet { margin-top: 8px; }
+
+/* 7am. Before you walk in. A house-book column hung on the right of the line, numerals on the left. */
+.stsm .requests .flow { margin-left: calc(50% + 20px); max-width: min(640px, calc(50% - 44px)); }
+.stsm .requests .station-anchor { margin: 0; width: 0; height: 0; }
+.stsm .requests ol { list-style: none; margin: 2.2em 0 0; padding: 0; counter-reset: req; }
+.stsm .requests li { position: relative; padding: 1.1em 0; max-width: 58ch; }
+.stsm .requests li + li { border-top: 1px solid var(--line); }
+.stsm .requests li::before { counter-increment: req; content: counter(req); position: absolute; right: calc(100% + 32px); top: 1.05em; width: 1.2em; text-align: center; font-family: var(--font-display); font-size: 26px; line-height: 1; color: var(--accent); opacity: .85; }
+.stsm .requests.alive li::before { animation: stsm-numeral 8s ease-in-out infinite; }
+.stsm .requests li:nth-child(1)::before { animation-delay: -1s; }
+.stsm .requests li:nth-child(2)::before { animation-delay: -2.3s; }
+.stsm .requests li:nth-child(3)::before { animation-delay: -3.7s; }
+.stsm .requests li:nth-child(4)::before { animation-delay: -5.1s; }
+.stsm .requests li:nth-child(5)::before { animation-delay: -6.4s; }
+.stsm .requests li:nth-child(6)::before { animation-delay: -0.6s; }
+.stsm .requests li:nth-child(7)::before { animation-delay: -4.4s; }
+.stsm .requests li:nth-child(8)::before { animation-delay: -7.2s; }
+@keyframes stsm-numeral { 0% { opacity: .7; } 50% { opacity: 1; } 100% { opacity: .7; } }
+.stsm .requests .quiet { margin-top: 32px; }
+
+/* 9am. Holy Liturgy. The line becomes the timetable. */
+.stsm .day .day-head { max-width: calc(50% - 44px); text-align: right; }
+.stsm .day .day-head h2, .stsm .day .day-head .lede { margin-left: auto; }
+.stsm .tt { list-style: none; margin: 56px 0 0; padding: 0; }
+.stsm .tt li { position: relative; display: grid; grid-template-columns: 1fr 64px 1fr; align-items: baseline; padding: 15px 0; }
+.stsm .tt .tt-row { display: flex; align-items: baseline; gap: 18px; }
+.stsm .tt li:nth-child(odd) .tt-row { grid-column: 1; justify-self: end; flex-direction: row-reverse; text-align: right; }
+.stsm .tt li:nth-child(even) .tt-row { grid-column: 3; justify-self: start; }
+.stsm .tt .tt-time { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; color: var(--text-secondary); white-space: nowrap; flex: none; }
+.stsm .tt .tt-label { font-size: 17px; line-height: 1.45; max-width: 40ch; }
+.stsm .tt .now { grid-column: 3; justify-self: start; align-self: center; opacity: 0; transition: opacity var(--dur) var(--ease-still); padding: 3px 9px; font-size: 12px; }
+.stsm .tt li:nth-child(even) .now { grid-column: 1; justify-self: end; }
+.stsm .tt li.is-now .now { opacity: 1; }
+.stsm .tt .row-anchor { grid-column: 2; justify-self: center; width: 8px; height: 8px; display: block; align-self: center; }
+.stsm .day .day-notes { margin: 40px 0 0 calc(50% + 32px); }
+.stsm .day .day-notes p { margin: 0 0 .5em; max-width: 56ch; }
+.stsm .day .day-links { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: baseline; margin-top: 28px; }
+
+/* 1pm. A talk with a Father. Two columns, the left sticky. */
+.stsm .questions .cols { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: start; max-width: 1120px; margin: 0 auto; }
+.stsm .questions .q-left { position: sticky; top: calc(var(--top-offset) + 88px); max-width: 420px; margin-left: auto; padding-bottom: 24px; }
+.stsm .questions .q-right { grid-column: 3; max-width: 560px; }
+.stsm .questions .fragment { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 2vw, 28px); line-height: 1.3; max-width: 24ch; margin: 24px 0 0; }
+.stsm .questions .intro { font-size: 15px; color: var(--text-secondary); margin: 28px 0 0; max-width: 40ch; }
+.stsm .faq { list-style: none; margin: 0; padding: 0; counter-reset: faq; }
+.stsm .faq li { position: relative; padding: 1.5em 0 1.6em; }
+.stsm .faq li::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--text-secondary); }
+.stsm .faq li::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--text-secondary); box-shadow: 0 0 8px 1px var(--text-secondary); opacity: 0; }
+.stsm .questions.alive .faq li.near::after { animation: stsm-near 10s ease-in-out -2s infinite; }
+@keyframes stsm-near { 0% { opacity: .3; } 50% { opacity: .6; } 100% { opacity: .3; } }
+.stsm .faq .q { margin: 0 0 .5em; }
+.stsm .faq .a { max-width: 56ch; margin: 0; }
+.stsm .faq .a + .a { margin-top: .8em; }
+.stsm .faq .quiet { margin-top: 14px; }
+.stsm .questions .closing { margin: 36px 0 0; max-width: 56ch; }
+.stsm .questions .q-right .quiet { margin-top: 20px; }
+
+/* 2pm. Personal meditation. The one dark section and the one interactive moment. */
+.stsm .still { background: var(--church); color: var(--text-on-dark); text-shadow: var(--tshadow-dark); padding: 16vh 24px 18vh; overflow: hidden; }
+.stsm .still .kicker { color: rgba(236, 232, 223, .72); }
+.stsm .still-media { position: absolute; inset: 0; overflow: hidden; }
+.stsm .still-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 29% 62%; opacity: calc(.38 + .32 * var(--hold, 0)); }
+.stsm .still-media::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(var(--church-rgb), .62) 0%, rgba(var(--church-rgb), .36) 45%, rgba(var(--church-rgb), .70) 100%); }
+/* the flame glow over the real flames (29 percent across, 62 percent down), the one place --flame appears */
+.stsm .still-media::after { content: ""; position: absolute; left: 29%; top: 62%; width: 52vmin; height: 52vmin; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(var(--flame-rgb), .9) 0%, rgba(var(--flame-rgb), .38) 28%, rgba(var(--flame-rgb), 0) 66%); opacity: calc(.55 * var(--hold, 0)); }
+.stsm .still .flow { max-width: 760px; margin: 0 auto; text-align: center; }
+.stsm .still h2 { margin-left: auto; margin-right: auto; }
+.stsm .still .lede { margin-left: auto; margin-right: auto; }
+.stsm .hold { position: relative; width: 120px; height: 120px; margin: 40px auto 0; }
+.stsm .hold::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; box-shadow: 0 0 34px 14px rgba(var(--accent-evening-rgb), .16); opacity: .6; pointer-events: none; }
+.stsm .still.alive .hold::before { animation: stsm-breathe 6s ease-in-out -2.2s infinite; }
+.stsm .hold.lit::before { opacity: .8; }
+.stsm .hold-target { position: relative; display: block; width: 120px; height: 120px; padding: 0; margin: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; font: inherit; }
+.stsm .hold-ring { position: absolute; inset: 0; width: 120px; height: 120px; overflow: visible; }
+.stsm .hold-track { fill: none; stroke: rgba(236, 232, 223, .18); stroke-width: 2; }
+.stsm .hold.lit .hold-track { stroke: rgba(236, 232, 223, .30); }
+.stsm .hold-arc { fill: none; stroke: var(--accent-evening); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: calc(1000 * (1 - var(--hold, 0))); transform: rotate(-90deg); transform-origin: 50% 50%; }
+.stsm .hold-clock { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 15px; letter-spacing: .06em; pointer-events: none; }
+.stsm .hold-instruction { text-align: center; margin: 20px 0 0; color: rgba(236, 232, 223, .8); min-height: 1.6em; }
+.stsm .revealed { visibility: hidden; margin: 44px auto 0; max-width: 760px; }
+.stsm .revealed.in { visibility: visible; }
+.stsm .revealed .quote { font-family: var(--font-display); font-style: italic; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.3; max-width: 28ch; margin: 0 auto; }
+.stsm .revealed .attr, .stsm .revealed .rlink-row { opacity: 0; transition: opacity 800ms var(--ease-still); }
+.stsm .revealed .attr { color: rgba(236, 232, 223, .72); transition-delay: 1.9s; }
+.stsm .revealed .rlink-row { margin: 18px 0 0; transition-delay: 2.5s; }
+.stsm .revealed.in .attr, .stsm .revealed.in .rlink-row { opacity: 1; }
+.stsm .revealed.in.done .attr, .stsm .revealed.in.done .rlink-row { transition-delay: 0s; }
+.stsm .rlink { color: var(--accent-evening); }
+.stsm .still .quiet { color: var(--text-on-dark); margin-top: 36px; }
+.stsm .photo-caption { position: absolute; left: 24px; bottom: 20px; z-index: 2; margin: 0; color: rgba(236, 232, 223, .62); }
+
+/* 4pm. Dinner. Three quotes staggered along the line. */
+.stsm .words .flow { max-width: 1120px; margin: 0 auto; }
+.stsm .words .words-head { margin-left: calc(50% + 32px); }
+.stsm .quotes { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 64px 1fr; row-gap: 48px; }
+.stsm .quotes li { max-width: 520px; }
+.stsm .quotes li:nth-child(1) { grid-column: 1; justify-self: end; text-align: right; }
+.stsm .quotes li:nth-child(1) .quote { margin-left: auto; }
+.stsm .quotes li:nth-child(2) { grid-column: 3; margin-top: 10vh; }
+.stsm .quotes li:nth-child(3) { grid-column: 1 / -1; justify-self: center; text-align: center; margin-top: 4vh; }
+.stsm .quotes li:nth-child(3) .quote { margin-left: auto; margin-right: auto; }
+.stsm .quotes .quote { font-family: var(--font-display); font-style: italic; font-size: clamp(24px, 2.6vw, 36px); line-height: 1.3; max-width: 24ch; margin: 0; }
+.stsm .words .note { text-align: center; margin: 56px 0 0; }
+.stsm .words .quiet-row { text-align: center; margin-top: 20px; }
+
+/* 6pm. Departure in peace. The split, the line ending in the cross. */
+.stsm .visit .split-grid { position: relative; display: grid; grid-template-columns: 1fr 64px 1fr; align-items: start; max-width: 1180px; margin: 0 auto; --cross-top: 112px; }
+.stsm .visit .visit-text { max-width: 540px; margin-left: auto; width: 100%; }
+.stsm .visit .visit-media { grid-column: 3; position: relative; align-self: center; }
+.stsm .visit .visit-media img { display: block; width: 100%; height: auto; -webkit-mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, #000 32%, rgba(0, 0, 0, .65) 60%, transparent 85%); mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, #000 32%, rgba(0, 0, 0, .65) 60%, transparent 85%); }
+.stsm .cross-end { position: absolute; left: calc(50% - 14px); top: var(--cross-top, 112px); width: 28px; height: 28px; color: var(--accent); z-index: 3; }
+.stsm .cross-end::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; box-shadow: 0 0 26px 10px var(--accent-muted); opacity: .4; z-index: -1; }
+.stsm .visit.alive .cross-end::after { animation: stsm-breathe 8s ease-in-out -2.8s infinite; }
+.stsm .cross-end svg { display: block; width: 28px; height: 28px; overflow: visible; }
+.stsm .cross-end .cross-outline { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linejoin: round; stroke-dasharray: 1000; stroke-dashoffset: calc(1000 * (1 - var(--cd, 1))); }
+.stsm .cross-end .cross-fill { fill: currentColor; fill-rule: evenodd; opacity: var(--cf, 1); }
+.stsm .fact-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 24px; align-items: baseline; margin: 32px 0 28px; }
+.stsm .fact-strip dt, .stsm .fact-strip dd { margin: 0; padding: 0; }
+.stsm .fact-strip .fact-label { display: block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 4px; }
+.stsm .fact-strip .fact-figure { display: block; font-family: var(--font-display); font-size: clamp(20px, 1.8vw, 26px); line-height: 1.25; }
+.stsm .visit .hours { margin: 0 0 24px; }
+.stsm .btn-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 18px; margin: 0 0 20px; }
+.stsm .btn-row .tel-group { display: inline-flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.stsm .visit .textlink-row { margin: 0 0 24px; }
+
+/* On your way home. The secondary pair, off the day, on the panel. */
+.stsm .pair-wrap { position: relative; z-index: 2; background: var(--panel); padding: 12vh 24px; margin-top: 6vh; }
+.stsm .pair-wrap .pair-kicker { text-align: center; margin-bottom: 44px; }
+.stsm .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 72px; max-width: 1120px; margin: 0 auto; align-items: baseline; }
+.stsm .pair .panel h3 { margin-bottom: .6em; }
+.stsm .pair .panel p { max-width: 48ch; }
+
+/* ---------- footer ---------- */
+
+.stsm .foot { position: relative; z-index: 1; border-top: 1px solid var(--line); padding: 72px 24px 48px; font-size: 15px; line-height: 1.6; }
+.stsm .foot-cols { display: grid; grid-template-columns: 1.3fr 1fr 1.25fr; gap: 40px 48px; max-width: 1120px; margin: 0 auto; }
+.stsm .foot h3 { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 14px; }
+.stsm .foot ul { list-style: none; margin: 0; padding: 0; }
+.stsm .foot li { margin: 0 0 8px; }
+.stsm .foot .foot-name { font-family: var(--font-display); font-size: 20px; line-height: 1.3; margin: 0 0 12px; }
+.stsm .foot .foot-small { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; color: var(--text-secondary); margin: 10px 0 0; max-width: 60ch; }
+.stsm .foot-bottom { max-width: 1120px; margin: 64px auto 0; text-align: center; }
+.stsm .foot-close { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 2vw, 28px); line-height: 1.3; margin: 0 0 24px; }
+.stsm .foot-bottom .foot-small { max-width: 76ch; margin: 6px auto 0; }
+
+/* ---------- breakpoints ---------- */
+
+@media (max-width: 1100px) {
+  .stsm .requests .flow { max-width: calc(50% - 44px); }
+}
+
+@media (max-width: 899px) {
+  .stsm .questions .cols { display: block; max-width: 640px; }
+  .stsm .questions .q-left { position: static; max-width: none; margin-left: 0; padding-bottom: 40px; }
+  .stsm .questions .q-right { max-width: none; }
+  .stsm .visit .split-grid { display: block; max-width: 640px; }
+  .stsm .visit .visit-text { max-width: none; margin-left: 0; }
+  .stsm .visit .visit-media { margin-top: 40px; max-width: 560px; }
+  /* the cross keeps its own 28px box in the flow (relative, so its glow pseudo-element stays 36px), centred on the line */
+  .stsm .cross-end { position: relative; left: auto; top: auto; display: block; width: 28px; height: 28px; margin: 28px auto 0; }
+  .stsm .words .words-head { margin-left: 0; }
+  .stsm .quotes { display: block; }
+  .stsm .quotes li { max-width: 560px; }
+  .stsm .quotes li + li { margin-top: 48px; }
+  .stsm .quotes li:nth-child(1) { text-align: left; justify-self: auto; }
+  .stsm .quotes li:nth-child(1) .quote { margin-left: 0; }
+  .stsm .quotes li:nth-child(2) { margin-left: 12%; }
+  .stsm .quotes li:nth-child(3) { text-align: left; justify-self: auto; margin: 48px 0 0; }
+  .stsm .quotes li:nth-child(3) .quote { margin-left: 0; }
+  .stsm .pair { grid-template-columns: 1fr; gap: 48px; }
+  .stsm .foot-cols { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .stsm { font-size: 17px; }
+  .stsm .nav-links { display: none; }
+  .stsm .nav { padding: 0 16px; gap: 12px; }
+  .stsm .nav-mark { font-size: 17px; gap: 8px; }
+  .stsm .nav .btn { padding: 8px 12px; font-size: 13px; }
+  .stsm .section { padding: 12vh 20px 12vh 48px; }
+  .stsm .drive { left: -8px; }
+  .stsm .threshold { left: 48px; transform: none; }
+  .stsm .station-anchor { margin-left: -36px; margin-right: 0; }
+  .stsm .welcome { text-align: left; padding-top: 12vh; padding-bottom: 20vh; }
+  .stsm .welcome .flow { margin: 0; }
+  .stsm .welcome .question, .stsm .welcome .p { margin-left: 0; }
+  .stsm .requests .flow { margin-left: 0; max-width: none; }
+  .stsm .requests li::before { right: auto; left: -36px; width: 24px; font-size: 22px; }
+  .stsm .day .day-head { max-width: none; text-align: left; }
+  .stsm .day .day-head h2, .stsm .day .day-head .lede { margin-left: 0; }
+  .stsm .tt li { display: block; padding: 12px 64px 12px 0; }
+  .stsm .tt li:nth-child(odd) .tt-row, .stsm .tt li:nth-child(even) .tt-row { flex-direction: column; align-items: flex-start; justify-self: start; width: 100%; gap: 2px; text-align: left; max-width: none; }
+  .stsm .tt .now, .stsm .tt li:nth-child(even) .now { position: absolute; right: 0; top: 12px; justify-self: auto; }
+  .stsm .tt .row-anchor { position: absolute; left: -28px; top: 1.35em; }
+  .stsm .day .day-notes { margin-left: 0; }
+  .stsm .questions .cols { max-width: none; }
+  .stsm .still { padding: 14vh 20px 16vh 48px; }
+  .stsm .still .flow { text-align: left; max-width: none; }
+  .stsm .still h2, .stsm .still .lede, .stsm .revealed .quote { margin-left: 0; }
+  .stsm .hold { margin-left: 0; }
+  .stsm .hold-instruction { text-align: left; }
+  .stsm .revealed { text-align: left; }
+  .stsm .photo-caption { left: 48px; }
+  .stsm .words .note, .stsm .words .quiet-row { text-align: left; }
+  .stsm .quotes li:nth-child(2) { margin-left: 0; margin-top: 40px; }
+  .stsm .visit .split-grid { max-width: none; }
+  .stsm .cross-end { margin: 28px 0 0 -38px; }
+  .stsm .visit .visit-media { margin-top: 32px; }
+  .stsm .fact-strip { grid-template-columns: 1fr; gap: 16px; }
+  .stsm .pair-wrap { padding: 10vh 20px 10vh 48px; }
+  .stsm .pair-wrap .pair-kicker { text-align: left; }
+  .stsm .foot { padding: 56px 20px 40px 48px; }
+  .stsm .foot-cols { grid-template-columns: 1fr; gap: 36px; }
+  .stsm .foot-bottom { text-align: left; }
+  .stsm .foot-bottom .foot-small { margin-left: 0; }
+  .stsm .hero-static-copy { padding-top: calc(var(--top-offset) + 72px); padding-bottom: 56px; }
+  .stsm .hero-static .h1 { gap: 14px; }
+  .stsm .hero-static .sub { margin-top: 16px; }
+  .stsm .hero-static .cta-row { margin-top: 22px; gap: 12px; }
+}
+
+/* short desktop windows keep the scrub and lose the overlays that have no room */
+@media (max-height: 560px) {
+  .stsm .stage .cue, .stsm .stage .ring, .stsm .stage .chevron, .stsm .stage .chip, .stsm .dust { display: none; }
+}
+
+/* 44px touch targets under a coarse pointer, alignment re-declared; the quiet links and the footer links grow their
+   hit area with padding that a matching negative margin cancels, so neither the underline nor the row pitch moves */
+@media (pointer: coarse) {
+  .stsm .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .stsm a.chip, .stsm .nav-mark, .stsm .nav-links a, .stsm .rlink, .stsm .tel { min-height: 44px; display: inline-flex; align-items: center; justify-content: flex-start; }
+  .stsm .quiet { padding-bottom: 20px; margin-bottom: -18px; }
+  .stsm .quiet::after { bottom: 18px; }
+  .stsm .foot li a { padding: 13px 0; margin: -13px 0; }   /* 18px line box plus 26px of padding is a 44px hit area; inline, so the 24px row pitch never moves */
+  .stsm .skip { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+}
+
+/* ---------- reduced motion: final states, drives stopped, positional transforms re-applied ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .stsm, .stsm *, .stsm *::before, .stsm *::after {
+    animation: none !important;
+    transition: none !important;
+    transition-delay: 0s !important;
+    animation-delay: 0s !important;
+  }
+  .stsm { opacity: 1; }
+  .stsm.js [data-in] .rise, .stsm.js [data-in].in .rise, .stsm .hero-static-copy > * { opacity: 1 !important; transform: translateY(0) !important; }
+  .stsm .split .vis, .stsm .split .w, .stsm .split .c { opacity: 1 !important; transform: none !important; }
+  .stsm .split .soft { display: none !important; }
+  .stsm .band { opacity: 1 !important; }
+  .stsm .band, .stsm .band-2, .stsm .band-3 { transform: translateX(-50%); }
+  .stsm .band-4 { transform: none; }
+  .stsm .band-4 .settle { transform: translateX(-50%); }
+  .stsm .cue { transform: translateX(-50%); opacity: 1; }
+  .stsm .lift { opacity: 1 !important; }
+  .stsm .dust { display: none !important; }
+  .stsm .env-blob-a { transform: translate(-4%, -3%) !important; }
+  .stsm .env-blob-b { transform: translate(4%, 3%) !important; }
+  .stsm .nav::after { opacity: 1; }
+  .stsm .threshold { opacity: 1 !important; transform: translateX(-50%); }
+  .stsm .drive-path { stroke-dashoffset: 0 !important; }
+  .stsm .birth line { stroke-dashoffset: 0 !important; }
+  .stsm .station .fill { opacity: 1 !important; }
+  .stsm .station .halo { opacity: .55 !important; }
+  .stsm .cross-end { --cd: 1 !important; --cf: 1 !important; }
+  .stsm .cross-end .cross-outline { stroke-dashoffset: 0 !important; }
+  .stsm .cross-end .cross-fill { opacity: 1 !important; }
+  .stsm .cross-end::after { opacity: .4; }
+  .stsm .hold-arc { stroke-dashoffset: 0 !important; transform: rotate(-90deg) !important; }
+  .stsm .hold-track { stroke: rgba(236, 232, 223, .30); }
+  .stsm .still-photo { opacity: .7 !important; }
+  .stsm .still-media::after { opacity: .55 !important; }
+  .stsm .revealed { visibility: visible !important; }
+  .stsm .revealed .attr, .stsm .revealed .rlink-row, .stsm .split[data-entrance="words"] .w { opacity: 1 !important; }
+  .stsm .welcome .yes::before, .stsm .requests li::before { opacity: .85; }
+  .stsm .faq li::after { opacity: 0; }
+  .stsm .btn:hover { transform: none; }
+  .stsm .skip { transform: translateY(-200%); }
+  .stsm .skip:focus, .stsm .skip:focus-visible { transform: translateY(0); }
+  .stsm .ring circle { transform: rotate(-90deg); }
+  .stsm .still-media::after { transform: translate(-50%, -50%); }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 720px) {
+  .stsm .threshold { transform: none; }
+}
